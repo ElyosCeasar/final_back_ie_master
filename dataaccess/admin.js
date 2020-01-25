@@ -1,17 +1,15 @@
+const User = require("../models/user");
+//-------------------------------------------------------------------
 const functions = {
-  getId() {
-    return privates.forms.length;
-  },
-
   createUser(username, password, role) {
     try {
-      const newUser = {
+      const user = new User({
         Role: role,
         username: username,
         password: password
-      };
-      //save
-      return true;
+      });
+      // course.save().then(res => console.log("res", res));
+      return user.save();
     } catch (error) {
       console.log(error);
       return false;
