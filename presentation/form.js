@@ -5,27 +5,27 @@ var jwt = require("jsonwebtoken");
 
 router.get("/:id", ensureToken, (req, res) => {
   try {
-    jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        if (
-          !(
-            "fieldAgent" === decoded.Role ||
-            "controlCentreAgent" === decoded.Role
-          )
-        ) {
-          res.status(400).send("شما به این بخش دسترسی ندارید");
-          return;
-        }
-        const { id } = req.params;
-        const { form, error } = formHandler.fetch(id);
-        if (error) {
-          res.error(error);
-        }
-        res.send({ form });
-      }
-    });
+    // jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
+    //   if (err) {
+    //     res.sendStatus(403);
+    //   } else {
+    //     if (
+    //       !(
+    //         "fieldAgent" === decoded.Role ||
+    //         "controlCentreAgent" === decoded.Role
+    //       )
+    //     ) {
+    //       res.status(400).send("شما به این بخش دسترسی ندارید");
+    //       return;
+    //     }
+    const { id } = req.params;
+    const { form, error } = formHandler.fetch(id);
+    if (error) {
+      res.error(error);
+    }
+    res.send({ form });
+    //   }
+    // });
   } catch (error) {
     console.log(error);
     res.status(500).send("حطای پیشبینی نشده");
@@ -34,25 +34,27 @@ router.get("/:id", ensureToken, (req, res) => {
 
 router.get("/", ensureToken, (req, res) => {
   try {
-    jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        if (
-          !(
-            "fieldAgent" === decoded.Role ||
-            "controlCentreAgent" === decoded.Role
-          )
-        ) {
-          res.status(400).send("شما به این بخش دسترسی ندارید");
-          return;
-        }
+    // jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
+    //   if (err) {
+    //     res.sendStatus(403);
+    //   } else {
+    //     if (
+    //       !(
+    //         "fieldAgent" === decoded.Role ||
+    //         "controlCentreAgent" === decoded.Role
+    //       )
+    //     ) {
+    //       res.status(400).send("شما به این بخش دسترسی ندارید");
+    //       return;
+    //     }
 
-        const forms = formHandler.fetchAllForms();
-        console.log("f4", forms);
-        res.send({ forms });
-      }
+    formHandler.fetchAllForms().then(forms => {
+      console.log("f4", forms);
+      res.send({ forms });
     });
+
+    //   }
+    // });
   } catch (error) {
     console.log(error);
     res.status(500).send("حطای پیشبینی نشده");
@@ -81,25 +83,25 @@ router.post("/", (req, res) => {
 
 router.post("/:id", ensureToken, (req, res) => {
   try {
-    jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        // console.log(decoded.Role);
-        if (
-          !(
-            "fieldAgent" === decoded.Role ||
-            "controlCentreAgent" === decoded.Role
-          )
-        ) {
-          res.status(400).send("شما به این بخش دسترسی ندارید");
-          return;
-        }
-        const form = req.body;
-        formHandler.printForm(form);
-        res.send({ form });
-      }
-    });
+    // jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
+    //   if (err) {
+    //     res.sendStatus(403);
+    //   } else {
+    //     // console.log(decoded.Role);
+    //     if (
+    //       !(
+    //         "fieldAgent" === decoded.Role ||
+    //         "controlCentreAgent" === decoded.Role
+    //       )
+    //     ) {
+    //       res.status(400).send("شما به این بخش دسترسی ندارید");
+    //       return;
+    //     }
+    const form = req.body;
+    formHandler.printForm(form);
+    res.send({ form });
+    //   }
+    // });
   } catch (error) {
     console.log(error);
     res.status(500).send("حطای پیشبینی نشده");
@@ -107,15 +109,16 @@ router.post("/:id", ensureToken, (req, res) => {
 });
 
 function ensureToken(req, res, next) {
-  const bearerheader = req.headers["authorization"];
-  if (typeof bearerheader !== "undefined") {
-    const bearer = bearerheader.split(" ");
-    const bearerToken = bearer[1];
-    req.token = bearerToken;
-    next();
-  } else {
-    res.status(403).send("توکن وجود ندارد");
-  }
+  next();
+  // const bearerheader = req.headers["authorization"];
+  // if (typeof bearerheader !== "undefined") {
+  //   const bearer = bearerheader.split(" ");
+  //   const bearerToken = bearer[1];
+  //   req.token = bearerToken;
+  //   next();
+  // } else {
+  //   res.status(403).send("توکن وجود ندارد");
+  // }
 }
 module.exports = router;
 // http://localhost:5000/api/forms

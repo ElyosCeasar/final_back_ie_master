@@ -2,15 +2,22 @@ const formDataAccess = require("../dataaccess/form");
 const Form = require("../models/model");
 
 const functions = {
-  insert(form) {
+  async insert(form) {
     console.log(
       "I got the form and Im gonna insert the form with properties: ",
       form
     );
-    const toBeInsertedForm = new Form(form);
-    toBeInsertedForm.id = formDataAccess.getId();
-    formDataAccess.insert(toBeInsertedForm);
-    console.log("The form was inserted");
+    form = { ...form, username: "admin" };
+    let toBeInsertedForm = new Form(form);
+    const _id = await formDataAccess.getId();
+    console.log("id is", _id);
+    toBeInsertedForm = { ...toBeInsertedForm, _id: _id };
+    formDataAccess
+      .insert(toBeInsertedForm)
+      .then(() => {
+        console.log("The form was inserted");
+      })
+      .catch(err => console.log("not inserted", form, err));
   },
 
   fetch(id) {
@@ -24,17 +31,32 @@ const functions = {
   },
 
   fetchAllForms() {
-    const allForms = [];
-    const forms = formDataAccess.fetchAllForms();
-    const arrayElementsFixer = forms.map(x => ({
-      key: x.id,
-      name: x.title,
-      number: x.id
-    }));
-    // for (const key in arrayElementsFixer) {
-    //   allForms.push(arrayElementsFixer[key].toJson());
-    // }
-    return arrayElementsFixer;
+    return formDataAccess.fetchAllForms().then(form => {
+      console.log("ss", form[0]);
+      const f = form[0];
+      console.log(f[["title"]]);
+      // const obj = {
+      //   _id: 0,
+      //   title: "Form",
+      //   fields: [
+      //     {
+      //       name: "name",
+      //       title: "نام",
+      //       type: "Text",
+      //       required: "false",
+      //       hasOptions: false
+      //     }
+      //   ],
+      //   username: "admin",
+      //   __v: 0
+      // };
+      // console.log("ss", obj.title);
+      return form.map(x => ({
+        key: x._id,
+        name: x.title,
+        number: x._id
+      }));
+    });
   },
 
   printForm(form) {

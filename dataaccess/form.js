@@ -1,14 +1,24 @@
+const Form = require("../models/form");
 const privates = {
   forms: []
 };
 
 const functions = {
-  getId() {
-    return privates.forms.length;
+  async getId() {
+    const count = await Form.count();
+
+    if (count > 0) {
+      return count; //for now because we dont have delete and time
+    } else {
+      return 0;
+    }
+
+    // return privates.forms.length;
   },
   insert: form => {
-    const { id } = form;
-    privates.forms.push(form);
+    const newForm = new Form(form);
+    return newForm.save();
+    //privates.forms.push(form);
   },
 
   fetch(id) {
@@ -16,13 +26,15 @@ const functions = {
   },
 
   delete(id) {
+    //don't have
     delete privates.forms[id];
   },
 
   fetchAllForms() {
-    return privates.forms;
+    return Form.find({});
   },
   reset() {
+    //don't have
     privates.forms = [];
     return "reset = done";
   }
