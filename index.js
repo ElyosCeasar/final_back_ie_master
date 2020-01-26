@@ -14,6 +14,8 @@ const user = require("./presentation/user");
 app.use("/api/user", user);
 const answer = require("./presentation/answer");
 app.use("/api/answer", answer);
+const area = require("./presentation/area");
+app.use("/api/area", area);
 mongoose
   .connect("mongodb+srv://admin:admin@cluster0-qexgr.azure.mongodb.net/final_1")
   .then(() => console.log("connect to db ok"))

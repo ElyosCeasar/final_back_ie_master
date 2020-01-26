@@ -3,7 +3,7 @@ const router = express.Router();
 const userHandler = require("../application/user");
 
 var jwt = require("jsonwebtoken");
-router.post("/createUser", ensureToken, (req, res) => {
+router.post("/", ensureToken, (req, res) => {
   try {
     jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
       if (err) {
