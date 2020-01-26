@@ -11,6 +11,9 @@ const functions = {
     // console.log(toBePrintedForm.toJson());
     console.log(answer);
     return answerDataAccess.saveAnswer(answer);
+  },
+  getAnswerStatesticByFormId(formId) {
+    return answerDataAccess.getAnswerStatesticByFormId(formId);
   }
 };
 
