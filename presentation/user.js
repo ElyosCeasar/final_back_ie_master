@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const adminHandler = require("../application/admin");
+const userHandler = require("../application/user");
 
 var jwt = require("jsonwebtoken");
 router.post("/createUser", ensureToken, (req, res) => {
@@ -14,7 +14,7 @@ router.post("/createUser", ensureToken, (req, res) => {
           return;
         }
         const datas = req.body;
-        const result = adminHandler
+        const result = userHandler
           .createUser(datas)
           .then(data => res.status(200).send("کاربر ایجاد شد"))
           .catch(er => res.status(400).send("کاربر ایجاد نشد"));

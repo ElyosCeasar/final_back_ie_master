@@ -1,4 +1,4 @@
-const adminDataAccess = require("../dataaccess/admin");
+const adminDataAccess = require("../dataaccess/user");
 const model = require("../models/model");
 var jwt = require("jsonwebtoken");
 const functions = {

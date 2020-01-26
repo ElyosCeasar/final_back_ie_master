@@ -10,8 +10,8 @@ const form = require("./presentation/form");
 app.use("/api/forms", form);
 const auth = require("./presentation/auth");
 app.use("/api/auth", auth);
-const admin = require("./presentation/admin");
-app.use("/api/admin", admin);
+const user = require("./presentation/user");
+app.use("/api/user", user);
 const answer = require("./presentation/answer");
 app.use("/api/answer", answer);
 mongoose
