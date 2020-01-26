@@ -17,7 +17,7 @@ const functions = {
             {
               Role: userRole,
               username: user.username.trim(),
-              exp: secondsSinceEpoch + 600
+              exp: secondsSinceEpoch + 600000
             },
             "your-256-bit-secret"
           );

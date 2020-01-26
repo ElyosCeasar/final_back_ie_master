@@ -19,11 +19,15 @@ router.get("/:id", ensureToken, (req, res) => {
     //       return;
     //     }
     const { id } = req.params;
-    const { form, error } = formHandler.fetch(id);
-    if (error) {
-      res.error(error);
-    }
-    res.send({ form });
+    formHandler
+      .fetch(id)
+      .then(form => {
+        res.send(form);
+      })
+      .catch(err => {
+        res.error(err);
+      });
+
     //   }
     // });
   } catch (error) {
@@ -73,33 +77,6 @@ router.post("/", (req, res) => {
     const form = req.body;
     formHandler.insert(form);
     res.send("form inserted");
-    //   }
-    // });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("حطای پیشبینی نشده");
-  }
-});
-
-router.post("/:id", ensureToken, (req, res) => {
-  try {
-    // jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
-    //   if (err) {
-    //     res.sendStatus(403);
-    //   } else {
-    //     // console.log(decoded.Role);
-    //     if (
-    //       !(
-    //         "fieldAgent" === decoded.Role ||
-    //         "controlCentreAgent" === decoded.Role
-    //       )
-    //     ) {
-    //       res.status(400).send("شما به این بخش دسترسی ندارید");
-    //       return;
-    //     }
-    const form = req.body;
-    formHandler.printForm(form);
-    res.send({ form });
     //   }
     // });
   } catch (error) {

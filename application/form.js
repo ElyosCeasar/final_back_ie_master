@@ -22,35 +22,13 @@ const functions = {
 
   fetch(id) {
     console.log("Looking for a form with the id of: ", id);
-    const form = formDataAccess.fetch(id);
-    if (form) {
-      return { form: form.toJson() };
-    } else {
-      return { error: "there is no such form" };
-    }
+    return formDataAccess.fetch(id).then(form => {
+      return { form: form };
+    });
   },
 
   fetchAllForms() {
     return formDataAccess.fetchAllForms().then(form => {
-      console.log("ss", form[0]);
-      const f = form[0];
-      console.log(f[["title"]]);
-      // const obj = {
-      //   _id: 0,
-      //   title: "Form",
-      //   fields: [
-      //     {
-      //       name: "name",
-      //       title: "نام",
-      //       type: "Text",
-      //       required: "false",
-      //       hasOptions: false
-      //     }
-      //   ],
-      //   username: "admin",
-      //   __v: 0
-      // };
-      // console.log("ss", obj.title);
       return form.map(x => ({
         key: x._id,
         name: x.title,

@@ -22,7 +22,7 @@ const functions = {
   },
 
   fetch(id) {
-    return privates.forms[id];
+    return Form.findOne({ _id: id });
   },
 
   delete(id) {
