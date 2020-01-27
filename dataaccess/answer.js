@@ -1,5 +1,5 @@
 const Answer = require("../models/answer");
-
+var inside = require("point-in-polygon");
 //-------------------------------------------------------------------
 const functions = {
   getAllAnswersByFormId(formId) {
@@ -28,10 +28,8 @@ const functions = {
     });
   },
   filterAnswersForGrid(filter, formId) {
-    console.log("filter", filter);
     return Answer.find({ formId: formId }).then(data => {
       const res = data.filter(x => {
-        // console.log("x86", x);
         let output = true;
         for (let i = 0; i < filter.length; i++) {
           if (
@@ -39,10 +37,31 @@ const functions = {
             filter[i].value !== "" &&
             filter[i].value !== null
           ) {
-            //  console.log("cc", filter);
-            if (filter[i].value !== x.fields[i].answer) {
-              output = false;
-              break;
+            if (filter[i].type !== "Location") {
+              if (filter[i].value !== x.fields[i].answer) {
+                output = false;
+                break;
+              }
+            } else {
+              //  in loca tion case if that point is inside we return okay
+              let convertedArea = [];
+              // console.log(allpol[i].coordinates);
+              for (let z = 0; z < x.fields[i].answer.length; z++) {
+                convertedArea.push([
+                  x.fields[i].answer[z].lat,
+                  x.fields[i].answer[z].lng
+                ]);
+              }
+
+              if (
+                !inside(
+                  [filter[i].value.lat, filter[i].value.lng],
+                  convertedArea
+                )
+              ) {
+                output = false;
+                break;
+              }
             }
           }
         }
