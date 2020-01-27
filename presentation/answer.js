@@ -27,6 +27,30 @@ router.get("/getAllAnswersByFormId/:id", ensureToken, (req, res) => {
     res.status(500).send("حطای پیشبینی نشده");
   }
 });
+router.get("/:id", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        // console.log(decoded.Role);
+        if (!("controlCentreAgent" === decoded.Role)) {
+          res.status(400).send("شما به این بخش دسترسی ندارید");
+          return;
+        }
+        const { id } = req.params;
+
+        answerHandler.getById(id).then(ans => {
+          console.log(ans);
+          res.send(ans);
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("حطای پیشبینی نشده");
+  }
+});
 
 router.post("/:id", ensureToken, (req, res) => {
   try {

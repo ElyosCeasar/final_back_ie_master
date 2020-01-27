@@ -6,6 +6,10 @@ const functions = {
     console.log("answers must search for form ", formId);
     return Answer.find({ formId: formId });
   },
+  getById(id) {
+    console.log("answers must search ", id);
+    return Answer.findOne({ _id: id });
+  },
   saveAnswer(answer) {
     //it returns user role
     const newAnswer = new Answer(answer);

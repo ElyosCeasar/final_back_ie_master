@@ -5,6 +5,9 @@ const functions = {
   getAllAnswersByFormId(formId) {
     return answerDataAccess.getAllAnswersByFormId(formId);
   },
+  getById(id) {
+    return answerDataAccess.getById(id);
+  },
   saveAnswer(answer) {
     console.log("The answer was received and is: ");
     // const toBePrintedForm = new Form(form);

@@ -22,6 +22,9 @@ const functions = {
             "your-256-bit-secret"
           );
         }
+      })
+      .catch(err => {
+        return null;
       });
   }
 };

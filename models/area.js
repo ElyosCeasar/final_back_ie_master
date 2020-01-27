@@ -3,7 +3,7 @@ const Area = mongoose.model(
   "Area",
   new mongoose.Schema({
     name: String,
-    coordinates: [{ lat: Number, long: Number }]
+    coordinates: [{ lat: Number, lng: Number }]
   })
 );
 module.exports = Area;
