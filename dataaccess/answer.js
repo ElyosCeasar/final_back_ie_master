@@ -26,6 +26,32 @@ const functions = {
         }
       });
     });
+  },
+  filterAnswersForGrid(filter, formId) {
+    console.log("filter", filter);
+    return Answer.find({ formId: formId }).then(data => {
+      const res = data.filter(x => {
+        // console.log("x86", x);
+        let output = true;
+        for (let i = 0; i < filter.length; i++) {
+          if (
+            filter[i].hasOwnProperty("value") &&
+            filter[i].value !== "" &&
+            filter[i].value !== null
+          ) {
+            //  console.log("cc", filter);
+            if (filter[i].value !== x.fields[i].answer) {
+              output = false;
+              break;
+            }
+          }
+        }
+        return output;
+      });
+
+      // return res;
+      return res;
+    });
   }
 };
 

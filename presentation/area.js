@@ -97,10 +97,11 @@ router.post("/getAllAreasNameForPoligon", ensureToken, (req, res) => {
       if (err) {
         res.sendStatus(403);
       } else {
-        if ("admin" !== decoded.Role) {
-          res.status(400).send("شما به این بخش دسترسی ندارید");
-          return;
-        }
+        //access all
+        // if ("admin" !== decoded.Role) {
+        //   res.status(400).send("شما به این بخش دسترسی ندارید");
+        //   return;
+        // }
         const datas = req.body;
         areaHandler
           .getAllAreasNameForPoligon(datas)

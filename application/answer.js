@@ -17,6 +17,9 @@ const functions = {
   },
   getAnswerStatesticByFormId(formId) {
     return answerDataAccess.getAnswerStatesticByFormId(formId);
+  },
+  filterAnswersForGrid(filter, formId) {
+    return answerDataAccess.filterAnswersForGrid(filter, formId);
   }
 };
 

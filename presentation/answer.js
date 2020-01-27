@@ -102,7 +102,29 @@ router.get("/getAnswerStatesticByFormId/:id", ensureToken, (req, res) => {
     res.status(500).send("حطای پیشبینی نشده");
   }
 });
-
+router.post("/filterAnswersForGrid/:id", ensureToken, (req, res) => {
+  try {
+    jwt.verify(req.token, "your-256-bit-secret", function(err, decoded) {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        // console.log(decoded.Role);
+        if (!("controlCentreAgent" === decoded.Role)) {
+          res.status(400).send("شما به این بخش دسترسی ندارید");
+          return;
+        }
+        const { id: formId } = req.params;
+        const filter = req.body;
+        answerHandler.filterAnswersForGrid(filter, formId).then(answers => {
+          res.send(answers);
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("حطای پیشبینی نشده");
+  }
+});
 function ensureToken(req, res, next) {
   const bearerheader = req.headers["authorization"];
   if (typeof bearerheader !== "undefined") {
